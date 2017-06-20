@@ -28,9 +28,22 @@ void convolve(double *signal, const double *filter, double *result);
 int main()
 {
 	int i;
-	double sum = 0.0;
 	bool x697;
-	double signal[512];
+	bool x770;
+	bool x852;
+	bool x941;
+	bool x1209;
+	bool x1336;
+	bool x1477;
+	bool x1633;
+	double s697;
+	double s770;
+	double s852;
+	double s941;
+	double s1209;
+	double s1336;
+	double s1477;
+	double s1633;
 	double r697[MAXLEN];
 	double r770[MAXLEN];
 	double r852[MAXLEN];
@@ -39,6 +52,7 @@ int main()
 	double r1336[MAXLEN];
 	double r1477[MAXLEN];
 	double r1633[MAXLEN];
+	double signal[SignalLen];
 	std::ifstream input;
 	std::ofstream output;
 
@@ -70,9 +84,34 @@ int main()
 
 	// Check to see if frequency is present
 	for(i = 0; i < MAXLEN; i++)
+	{
+		if(r697[i] > 0)
+			s697 += r697[i];
+		if(r770[i] > 0)
+			s770 += r770[i];
+		if(r852[i] > 0)
+			s852 += r852[i];
+		if(r941[i] > 0)
+			s941 += r941[i];
+		if(r1209[i] > 0)
+			s1209 += r1209[i];
 		if(r1336[i] > 0)
-			sum += r1336[i];
-	cout << sum << endl;
+			s1336 += r1336[i];
+		if(r1477[i] > 0)
+			s1477 += r1477[i];
+		if(r1633[i] > 0)
+			s1633 += r1633[i];
+	}
+
+	cout << "s697: " << s697 << endl;
+	cout << "s770: " << s770 << endl;
+	cout << "s852: " << s852 << endl;
+	cout << "s941: " << s941 << endl;
+	cout << "s1209: " << s1209 << endl;
+	cout << "s1336: " << s1336 << endl;
+	cout << "s1477: " << s1477 << endl;
+	cout << "s1633: " << s1633 << endl;
+	
 
 	
 	// write the results to a file
