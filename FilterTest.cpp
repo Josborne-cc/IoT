@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 #define SignalLen 512
-#define MAXLEN 2000
+#define MAXLEN 1025
 
 void convolve(double *signal, double *result);
 
