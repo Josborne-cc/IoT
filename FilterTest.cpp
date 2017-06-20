@@ -28,14 +28,15 @@ void convolve(double *signal, const double *filter, double *result);
 int main()
 {
 	int i;
-	bool x697;
-	bool x770;
-	bool x852;
-	bool x941;
-	bool x1209;
-	bool x1336;
-	bool x1477;
-	bool x1633;
+	int tone;
+	bool x697 = false;
+	bool x770 = false;
+	bool x852 = false;
+	bool x941 = false;
+	bool x1209 = false;
+	bool x1336 =false;
+	bool x1477 = false;
+	bool x1633 = false;
 	double s697;
 	double s770;
 	double s852;
@@ -103,6 +104,7 @@ int main()
 			s1633 += r1633[i];
 	}
 
+	
 	cout << "s697: " << s697 << endl;
 	cout << "s770: " << s770 << endl;
 	cout << "s852: " << s852 << endl;
@@ -111,6 +113,50 @@ int main()
 	cout << "s1336: " << s1336 << endl;
 	cout << "s1477: " << s1477 << endl;
 	cout << "s1633: " << s1633 << endl;
+	
+	// if frequeny is present set true
+	if(s697 > 50)
+		x697 = true;
+	if(s770 > 50)
+		x770 = true;
+	if(s852 > 50)
+		x852 = true;
+	if(s941 > 50)
+		x941 = true;
+	if(s1209 > 50)
+		x1209 = true;
+	if(s1336 > 50);
+		x1336 = true;
+	if(s1477 > 50)
+		x1477 = true;
+	if(s1633 > 50)
+		x1633 = true;
+	
+	// print what tone is present
+	if (x697 == true && x1209 == true)
+			cout << "The tone is: 1" << endl;
+	if (x770 == true && x1209 == true)
+		cout << "The tone is: 4" << endl;
+	if (x852 == true && x1209 == true)
+		cout << "The tone is: 7" << endl;
+	if (x941 == true && x1209 == true)
+		cout << "The tone is: *" << endl;
+	if (x697 == true && x1336 == true)
+		cout << "The tone is: 2" << endl;
+	if (x770 == true && x1336 == true)
+		cout << "The tone is: 5" << endl;
+	if (x852 == true && x1336 == true)
+		cout << "The tone is: 8" << endl;
+	if (x941 == true && x1336 == true)
+		cout << "The tone is: 0" << endl;
+	if (x697 == true && x1477 == true)
+		cout << "The tone is: 3" << endl;
+	if (x770 == true && x1477 == true)
+		cout << "The tone is: 6" << endl;
+	if (x852 == true && x1477 == true)
+		cout << "The tone is: 9" << endl;
+	if (x941 == true && x1477 == true)
+		cout << "The tone is: #" << endl;
 	
 
 	
