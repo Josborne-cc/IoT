@@ -17,8 +17,8 @@ int main()
 	int j;
 	int k;
 	double x1209[512];
-	double convolve[512 + BL][BL];
-	double result[512 + BL];
+	double convolve[2000][BL];
+	double result[2000];
 	std::ifstream input;
 	std::ofstream output;
 
@@ -49,7 +49,7 @@ int main()
 	}
 
 	// Add up all the products
-	for(i = 0; i < 512 + BL; i++)
+	for(i = 0; i < 2000; i++)
 	{
 		for(j = 0; j < BL; j++)
 		{
@@ -58,12 +58,12 @@ int main()
 	}
 
 	// Print the Result
-	for(i = 0; i < 512 + BL; i++)
+	for(i = 0; i < 2000; i++)
 		cout << i << ": " << result[i] << endl;
 	
 	// write the results to a file
 	output.open("c1209.txt");
-	for(i = 0; i < 512 + BL; i++)
+	for(i = 0; i < 2000; i++)
 		output << result[i] << endl;
 	output.close();
 	
