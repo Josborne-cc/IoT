@@ -16,10 +16,11 @@ using std::endl;
 int main()
 {
 	int i;
-	int j;
 	int k;
+	int n;
+	int kmax;
+	int kmin;
 	double x1209[512];
-	double convolve[2000][BL];
 	double result[2000];
 	std::ifstream input;
 	std::ofstream output;
@@ -38,39 +39,12 @@ int main()
 		cout << "file is not open" << endl;
 
 	input.close();
+
+
 	
-	/*
-	// Do the Convolution
-	k = 0;
-	for(i = 0; i < BL; i++)
-	{
-		for(j = 0; j < 512; j++)
-		{
-			convolve[k+j][i] = B[i] * x1209[j];
-		}
-		k++;
-	}
-
-	// Add up all the products
-	for(i = 0; i < 2000; i++)
-	{
-		for(j = 0; j < BL; j++)
-		{
-			result[i] += convolve[i][j];
-		}
-	}
-
-	// Print the Result
-	for(i = 0; i < 2000; i++)
-		cout << i << ": " << result[i] << endl;
-	*/
-
-	int n;
 
 	  for (n = 0; n < SignalLen + BL - 1; n++)
 	  {
-	    int kmin, kmax, k;
-
 	    result[n] = 0;
 
 	    kmin = (n >= BL - 1) ? n - (BL - 1) : 0;
