@@ -28,7 +28,6 @@ void convolve(double *signal, const double *filter, double *result);
 int main()
 {
 	int i;
-	int tone;
 	bool x697 = false;
 	bool x770 = false;
 	bool x852 = false;
@@ -58,7 +57,7 @@ int main()
 	std::ofstream output;
 
 	// Gather the input
-	input.open("DTMF tones/1336.samples", std::fstream::in);
+	input.open("DTMF tones/dtmf_8.samples", std::fstream::in);
 
 	if (input.is_open())
 	{
@@ -103,8 +102,9 @@ int main()
 		if(r1633[i] > 0)
 			s1633 += r1633[i];
 	}
-
 	
+	/*
+	// Print the Sums
 	cout << "s697: " << s697 << endl;
 	cout << "s770: " << s770 << endl;
 	cout << "s852: " << s852 << endl;
@@ -113,6 +113,7 @@ int main()
 	cout << "s1336: " << s1336 << endl;
 	cout << "s1477: " << s1477 << endl;
 	cout << "s1633: " << s1633 << endl;
+	*/
 	
 	// if frequeny is present set true
 	if(s697 > 50)
