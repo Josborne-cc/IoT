@@ -25,7 +25,7 @@ int main()
 	std::ifstream input;
 	std::ofstream output;
 
-	input.open("DTMF tones/1209.samples", std::fstream::in);
+	input.open("DTMF tones/1336.samples", std::fstream::in);
 
 	if (input.is_open())
 	{
