@@ -20,6 +20,7 @@ int main()
 	double convolve[512 + BL][BL];
 	double result[512 + BL];
 	std::ifstream input;
+	std::ofstream output;
 
 	input.open("DTMF tones/1209.samples", std::fstream::in);
 
@@ -59,6 +60,12 @@ int main()
 	// Print the Result
 	for(i = 0; i < 512 + BL; i++)
 		cout << i << ": " << result[i] << endl;
+	
+	// write the results to a file
+	output.open("c1209.txt");
+	for(i = 0; i < 512 + BL; i++)
+		output << result[i] << endl;
+	output.close();
 	
 	return 0;
 }
