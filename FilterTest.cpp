@@ -5,7 +5,15 @@ Program: Convulution of a DTMF filter to determine the tone
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cmath>
+#include "697coefs.h"
+#include "770coefs.h"
+#include "852coefs.h"
+#include "941coefs.h"
 #include "1209coefs.h"
+#include "1336coefs.h"
+#include "1477coefs.h"
+#include "1633coefs.h"
 
 
 using std::cout;
@@ -15,7 +23,7 @@ using std::endl;
 #define FilterLen 513
 #define MAXLEN 1025
 
-void convolve(double *signal, double *filter, double *result);
+void convolve(double *signal, const double *filter, double *result);
 
 int main()
 {
@@ -62,20 +70,22 @@ int main()
 
 	// Check to see if frequency is present
 	for(i = 0; i < MAXLEN; i++)
-		sum += r1336[i];
+		if(r1336[i] > 0)
+			sum += r1336[i];
+	cout << sum << endl;
 
 	
 	// write the results to a file
 	output.open("c1209.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << result[i] << endl;
+		output << r1336[i] << endl;
 	output.close();
 	
 	return 0;
 }
 
 // Convolution Function
-void convolve(double *signal, double *filter, double *result)
+void convolve(double *signal, const double *filter, double *result)
 {
 	int k;
 	int n;
