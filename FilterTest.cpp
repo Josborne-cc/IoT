@@ -164,23 +164,23 @@ int main()
 	// write the results to a file
 	output.open("c697.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r697[i] << endl;
 	output.close();
 	output.open("c770.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r770[i] << endl;
 	output.close();
 	output.open("c852.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r852[i] << endl;
 	output.close();
 	output.open("c941.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r941[i] << endl;
 	output.close();
 	output.open("c1209.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r1209[i] << endl;
 	output.close();
 	output.open("c1336.txt");
 	for(i = 0; i < MAXLEN; i++)
@@ -188,11 +188,11 @@ int main()
 	output.close();
 	output.open("c1477.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r1477[i] << endl;
 	output.close();
 	output.open("c1633.txt");
 	for(i = 0; i < MAXLEN; i++)
-		output << r1336[i] << endl;
+		output << r1633[i] << endl;
 	output.close();
 	
 	return 0;
