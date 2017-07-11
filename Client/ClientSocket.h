@@ -3,7 +3,7 @@
 #ifndef ClientSocket_class
 #define ClientSocket_class
 
-#include "socket.h"
+#include "Socket.h"
 
 
 class ClientSocket : private Socket

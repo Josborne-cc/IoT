@@ -1,5 +1,6 @@
 #include "ClientSocket.h"
-#include "SocketException.h"#include <iostream>
+#include "SocketException.h"
+#include <iostream>
 #include <string>
 
 int main ( int argc, int argv[] )
