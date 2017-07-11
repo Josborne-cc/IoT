@@ -10,7 +10,7 @@ c.o: c.cpp
 	g++ -c c.cpp
 
 ClientSocket.o: ClientSocket.cpp ClientSocket.h
-	g++ -c ServerSocket.cpp
+	g++ -c ClientSocket.cpp
 
 Socket.o: Socket.cpp Socket.h
 	g++ -c Socket.cpp
