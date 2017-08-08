@@ -6,6 +6,11 @@ Program: Convulution of a DTMF filter to determine the tone
 #include <vector>
 #include <fstream>
 #include <cmath>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 #include "697coefs.h"
 #include "770coefs.h"
 #include "852coefs.h"
@@ -20,7 +25,7 @@ using std::cout;
 using std::endl;
 
 #define SignalLen 512
-#define FilterLen 513
+#define WienerLen 513
 #define MAXLEN 1025
 
 void convolve(double *signal, const double *filter, double *result);
@@ -55,6 +60,10 @@ int main()
 	double signal[SignalLen];
 	std::ifstream input;
 	std::ofstream output;
+	//std::ofstream myfifo;
+
+	int fd;
+	char const * myfifo = "myfifo";
 
 	// Gather the input
 	input.open("DTMF tones/dtmf_5.samples", std::fstream::in);
@@ -103,7 +112,7 @@ int main()
 			s1633 += r1633[i];
 	}
 	
-	/*
+	
 	// Print the Sums
 	cout << "s697: " << s697 << endl;
 	cout << "s770: " << s770 << endl;
@@ -113,7 +122,14 @@ int main()
 	cout << "s1336: " << s1336 << endl;
 	cout << "s1477: " << s1477 << endl;
 	cout << "s1633: " << s1633 << endl;
-	*/
+
+	/* create the FIFO (named pipe) */
+	//mkfifo(myfifo, 0666);
+	//fd = open(myfifo, O_WRONLY);
+
+	
+
+	
 	
 	// if frequeny is present set true
 	if(s697 > 50)
@@ -135,29 +151,81 @@ int main()
 	
 	// print what tone is present
 	if (x697 == true && x1209 == true)
-			cout << "The tone is: 1" << endl;
+	{
+		cout << "The tone is: 1" << endl;
+		//write(fd, "1", sizeof("1"));
+	}
 	if (x770 == true && x1209 == true)
+	{
 		cout << "The tone is: 4" << endl;
+		//write(fd, "4", sizeof("4"));
+	}
 	if (x852 == true && x1209 == true)
+	{
 		cout << "The tone is: 7" << endl;
+		//write(fd, "7", sizeof("7"));
+	}
 	if (x941 == true && x1209 == true)
+	{
 		cout << "The tone is: *" << endl;
+		//write(fd, "*", sizeof("*"));
+	}
 	if (x697 == true && x1336 == true)
+	{
 		cout << "The tone is: 2" << endl;
+		//write(fd, "2", sizeof("2"));
+	}
 	if (x770 == true && x1336 == true)
+	{
 		cout << "The tone is: 5" << endl;
+	
+		mkfifo(myfifo, 0666);
+		fd = open(myfifo, O_WRONLY);
+		write(fd, "5", sizeof("5"));
+		close(fd);
+		unlink(myfifo);
+cout << "josh" << endl;
+
+	}
 	if (x852 == true && x1336 == true)
+	{
 		cout << "The tone is: 8" << endl;
+		//write(fd, "8", sizeof("8"));
+	}
 	if (x941 == true && x1336 == true)
+	{
 		cout << "The tone is: 0" << endl;
+		//write(fd, "0", sizeof("0"));
+	}
 	if (x697 == true && x1477 == true)
+	{
 		cout << "The tone is: 3" << endl;
+	}
 	if (x770 == true && x1477 == true)
+	{
 		cout << "The tone is: 6" << endl;
+		//write(fd, "6", sizeof("6"));
+	}
 	if (x852 == true && x1477 == true)
+	{
 		cout << "The tone is: 9" << endl;
+		//write(fd, "9", sizeof("9"));
+	}
 	if (x941 == true && x1477 == true)
+	{
 		cout << "The tone is: #" << endl;
+		//write(fd, "#", sizeof("#"));
+	}
+
+
+
+	
+	
+	
+
+	/* remove the FIFO */
+	//close(fd);
+	//unlink(myfifo);
 	
 
 	
@@ -206,11 +274,11 @@ void convolve(double *signal, const double *filter, double *result)
 	int kmax;
 	int kmin;
 	
-	for (n = 0; n < SignalLen + FilterLen - 1; n++)
+	for (n = 0; n < WienerLen + WienerLen - 1; n++)
 	{
 		result[n] = 0;
 
-		kmin = (n >= FilterLen - 1) ? n - (FilterLen - 1) : 0;
+		kmin = (n >= WienerLen - 1) ? n - (WienerLen - 1) : 0;
 		kmax = (n < SignalLen - 1) ? n : SignalLen - 1;
 
 		for (k = kmin; k <= kmax; k++)
