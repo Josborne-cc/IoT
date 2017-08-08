@@ -30,6 +30,10 @@ using std::endl;
 
 void convolve(double *signal, const double *filter, double *result);
 
+int open_pipe(char *pipe);
+int write_pipe(int fd, int *address);
+int read_pipe(int fd, int *address);
+
 int main()
 {
 	int i;
@@ -62,6 +66,7 @@ int main()
 	std::ofstream output;
 	//std::ofstream myfifo;
 
+	int tone;
 	int fd;
 	char const * myfifo = "myfifo";
 
@@ -178,12 +183,17 @@ int main()
 	if (x770 == true && x1336 == true)
 	{
 		cout << "The tone is: 5" << endl;
+		tone = 5;
 	
-		mkfifo(myfifo, 0666);
-		fd = open(myfifo, O_WRONLY);
-		write(fd, "5", sizeof("5"));
+	if(mkfifo("/home/josh/IoT/myfifo", 0666) != 0)
+	{
+		perror("pipe open error");
+		exit(1);
+	}
+		fd = open_pipe("/home/josh/IoT/myfifo");
+		write_pipe(cb_fd, &tone);
 		close(fd);
-		unlink(myfifo);
+		unlink("/home/josh/IoT/myfifo");
 cout << "josh" << endl;
 
 	}
@@ -286,4 +296,49 @@ void convolve(double *signal, const double *filter, double *result)
 			result[n] += signal[k] * filter[n - k];
 		}
 	}
+}
+
+/***************open_pipe()****************************************************
+Purpose: Open a pipe for communication
+Input:   char* pipe - name of pipe to open
+Output:  int fd - file descripter to referecnce pipe
+******************************************************************************/
+int open_pipe(char *pipe)
+{
+	int fd;
+
+	fd = open(pipe, (O_RDWR));
+	if (fd == -1)
+	{
+		perror("Open Failed");
+		exit(1);
+	}
+
+	return fd;
+}
+
+/*************************write_pipe()*****************************************
+Purpose: Write a message to a pipe
+Input:   int fd - file descripter of pipe to be written to
+	 int *address - address of message to be written
+******************************************************************************/
+int write_pipe(int fd, int *address)
+{
+	if(write(fd, address, sizeof(int)) == -1)
+		perror("Write Failed");
+	return 0;
+}
+
+
+
+/*******************read_pipe()************************************************
+Purpose: Read data from the pipe
+Input:   int fd - file descriptor for the pipe
+	 int *address - address of the location where the data is to be written
+******************************************************************************/
+int read_pipe(int fd, int *address)
+{
+	if(read(fd, address, sizeof(int)) == -1)
+		perror("Read Failed");
+	return 0;
 }
