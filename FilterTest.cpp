@@ -67,6 +67,8 @@ int main()
 
 	int tone;
 	int fd;
+	char pro1[] = "Client";
+	int Client_id;
 
 
 	if(mkfifo("/home/josh/IoT/myfifo", 0666) != 0)
@@ -74,6 +76,10 @@ int main()
 		perror("pipe open error");
 		exit(1);
 	}
+	
+	Client_id = create_process(pro1);
+	
+	printf("Starting Client, Process ID %d\n", Client_id);
 
 	// Gather the input
 	input.open("DTMF tones/dtmf_5.samples", std::fstream::in);
@@ -222,7 +228,7 @@ int main()
 	close(fd);
 	
 	
-
+/*
 	// write the results to a file
 	output.open("c697.txt");
 	for(i = 0; i < MAXLEN; i++)
@@ -256,6 +262,13 @@ int main()
 	for(i = 0; i < MAXLEN; i++)
 		output << r1633[i] << endl;
 	output.close();
+	*/
+	
+	// Wait for each process to finish
+	for(i = 0; i < NUM_CHILDREN; i++)
+		wait(NULL);
+	
+	printf("Shutting Down All Processes!\n");
 
 	unlink("/home/josh/IoT/myfifo");
 	
@@ -326,5 +339,44 @@ int read_pipe(int fd, int *address)
 {
 	if(read(fd, address, sizeof(int)) == -1)
 		perror("Read Failed");
+	return 0;
+}
+
+/**********************create_process()****************************************
+Purpose: Fork a new process
+Input:   char* name - name of the process to be started
+******************************************************************************/
+int create_process(char *name)
+{
+	pid_t  pid;
+	char path[] = "/home/josh/IoT/Client/";
+	char exepath[PATH_LEN] = {0};
+	
+	//create the file path for exelp
+	exepath[0] = '\0';
+	strncpy(exepath, path, strlen(path));
+	strncat(exepath, name, (strlen(path) + strlen(name)));
+	
+	
+	pid = fork();	//create the child
+	//fork failed
+	if (pid < 0) 
+	{ 
+		fprintf(stderr, "Fork Failed");
+		exit(-1);
+	}
+	//child process
+	else if (pid == 0) 
+	{
+		execlp(exepath, name, NULL);
+	}
+	//parent process
+	else 
+	{
+		//wait (NULL);
+		return pid;
+		//printf ("Child Complete\n");
+		//exit(0);
+	}
 	return 0;
 }
