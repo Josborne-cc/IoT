@@ -64,11 +64,16 @@ int main()
 	double signal[SignalLen];
 	std::ifstream input;
 	std::ofstream output;
-	//std::ofstream myfifo;
 
 	int tone;
 	int fd;
-	char const * myfifo = "myfifo";
+
+
+	if(mkfifo("/home/josh/IoT/myfifo", 0666) != 0)
+	{
+		perror("pipe open error");
+		exit(1);
+	}
 
 	// Gather the input
 	input.open("DTMF tones/dtmf_5.samples", std::fstream::in);
@@ -128,12 +133,6 @@ int main()
 	cout << "s1477: " << s1477 << endl;
 	cout << "s1633: " << s1633 << endl;
 
-	/* create the FIFO (named pipe) */
-	//mkfifo(myfifo, 0666);
-	//fd = open(myfifo, O_WRONLY);
-
-	
-
 	
 	
 	// if frequeny is present set true
@@ -158,87 +157,72 @@ int main()
 	if (x697 == true && x1209 == true)
 	{
 		cout << "The tone is: 1" << endl;
-		//write(fd, "1", sizeof("1"));
+		tone = 1;
 	}
 	if (x770 == true && x1209 == true)
 	{
 		cout << "The tone is: 4" << endl;
-		//write(fd, "4", sizeof("4"));
+		tone = 4;
 	}
 	if (x852 == true && x1209 == true)
 	{
 		cout << "The tone is: 7" << endl;
-		//write(fd, "7", sizeof("7"));
+		tone = 7;
 	}
 	if (x941 == true && x1209 == true)
 	{
 		cout << "The tone is: *" << endl;
-		//write(fd, "*", sizeof("*"));
+		tone = 42;
 	}
 	if (x697 == true && x1336 == true)
 	{
 		cout << "The tone is: 2" << endl;
-		//write(fd, "2", sizeof("2"));
+		tone = 2;
 	}
 	if (x770 == true && x1336 == true)
 	{
 		cout << "The tone is: 5" << endl;
 		tone = 5;
-	
-	if(mkfifo("/home/josh/IoT/myfifo", 0666) != 0)
-	{
-		perror("pipe open error");
-		exit(1);
-	}
-		fd = open_pipe("/home/josh/IoT/myfifo");
-		write_pipe(cb_fd, &tone);
-		close(fd);
-		unlink("/home/josh/IoT/myfifo");
-cout << "josh" << endl;
-
 	}
 	if (x852 == true && x1336 == true)
 	{
 		cout << "The tone is: 8" << endl;
-		//write(fd, "8", sizeof("8"));
+		tone = 8;
 	}
 	if (x941 == true && x1336 == true)
 	{
 		cout << "The tone is: 0" << endl;
-		//write(fd, "0", sizeof("0"));
+		tone = 0;
 	}
 	if (x697 == true && x1477 == true)
 	{
 		cout << "The tone is: 3" << endl;
+		tone = 3;
 	}
 	if (x770 == true && x1477 == true)
 	{
 		cout << "The tone is: 6" << endl;
-		//write(fd, "6", sizeof("6"));
+		tone = 6;
 	}
 	if (x852 == true && x1477 == true)
 	{
 		cout << "The tone is: 9" << endl;
-		//write(fd, "9", sizeof("9"));
+		tone = 9;
 	}
 	if (x941 == true && x1477 == true)
 	{
 		cout << "The tone is: #" << endl;
-		//write(fd, "#", sizeof("#"));
+		tone = 35;
 	}
 
 
 
-	
+	fd = open_pipe("/home/josh/IoT/myfifo");
+	write_pipe(fd, &tone);
+	close(fd);
 	
 	
 
-	/* remove the FIFO */
-	//close(fd);
-	//unlink(myfifo);
-	
-
-	
 	// write the results to a file
 	output.open("c697.txt");
 	for(i = 0; i < MAXLEN; i++)
@@ -272,6 +256,8 @@ cout << "josh" << endl;
 	for(i = 0; i < MAXLEN; i++)
 		output << r1633[i] << endl;
 	output.close();
+
+	unlink("/home/josh/IoT/myfifo");
 	
 	return 0;
 }
