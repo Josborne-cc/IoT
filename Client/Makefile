@@ -1,10 +1,10 @@
 # Makefile for the socket programming example
 #
 
-default: test
+default: Client
 
-test: ClientSocket.o Socket.o c.o
-	g++ -o test ClientSocket.o Socket.o c.o
+Client: ClientSocket.o Socket.o c.o
+	g++ -o Client ClientSocket.o Socket.o c.o
 
 c.o: c.cpp
 	g++ -c c.cpp
@@ -16,5 +16,5 @@ Socket.o: Socket.cpp Socket.h
 	g++ -c Socket.cpp
 
 clean:
-	rm -f *.o test
+	rm -f *.o Client
 
