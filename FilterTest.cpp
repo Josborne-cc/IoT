@@ -78,7 +78,7 @@ int main()
 	int Client_id;
 
 
-	if(mkfifo("/home/josh/IoT/myfifo", 0666) != 0)
+	if(mkfifo("/home/debian/Desktop/IoTProject/TestPrograms/IoT/myfifo", 0666) != 0)
 	{
 		perror("pipe open error");
 		exit(1);
@@ -230,7 +230,7 @@ int main()
 
 
 
-	fd = open_pipe("/home/josh/IoT/myfifo");
+	fd = open_pipe("/home/debian/Desktop/IoTProject/TestPrograms/IoT/myfifo");
 	write_pipe(fd, &tone);
 	close(fd);
 	
@@ -277,7 +277,7 @@ int main()
 	
 	printf("Shutting Down All Processes!\n");
 
-	unlink("/home/josh/IoT/myfifo");
+	unlink("/home/debian/Desktop/IoTProject/TestPrograms/IoT/myfifo");
 	
 	return 0;
 }

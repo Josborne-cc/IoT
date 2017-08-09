@@ -48,7 +48,7 @@ int main ( int argc, int argv[] )
 		try
 		{
 			//client_socket << "Test message.";
-			fd = open_pipe("/home/josh/IoT/myfifo");
+			fd = open_pipe("/home/debian/Desktop/IoTProject/TestPrograms/IoT/myfifo");
 			read_pipe(fd, &tone);
 			client_socket << ToString(tone);
 			client_socket >> reply;
