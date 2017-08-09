@@ -2,6 +2,7 @@
 #include "SocketException.h"
 #include <iostream>
 #include <string>
+#include <errno.h>
 
 int main ( int argc, int argv[] )
 {
