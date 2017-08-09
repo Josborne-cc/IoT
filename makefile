@@ -9,4 +9,4 @@ FilterTest.o: FilterTest.cpp 1209coefs.h tmwtypes.h
 	g++ $(CFLAGS) -c FilterTest.cpp
 
 clean:
-	$(RM) count *.o *~
+	$(RM) count *.o *~ FilterTest

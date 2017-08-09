@@ -1,4 +1,5 @@
 /*
+
 Program: Convulution of a DTMF filter to determine the tone
 */
 
@@ -8,9 +9,12 @@ Program: Convulution of a DTMF filter to determine the tone
 #include <cmath>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 #include "697coefs.h"
 #include "770coefs.h"
 #include "852coefs.h"
@@ -27,12 +31,15 @@ using std::endl;
 #define SignalLen 512
 #define WienerLen 513
 #define MAXLEN 1025
+#define PATH_LEN 100
+#define NUM_CHILDREN 1
 
 void convolve(double *signal, const double *filter, double *result);
 
 int open_pipe(char *pipe);
 int write_pipe(int fd, int *address);
 int read_pipe(int fd, int *address);
+int create_process(char *name);
 
 int main()
 {
