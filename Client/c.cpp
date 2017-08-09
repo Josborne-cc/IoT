@@ -11,6 +11,26 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sstream>
+
+
+using std::string;
+using std::stringstream;
+
+template <class T>
+string ToString(T val)
+{
+    stringstream stream;
+    stream << val;
+    return stream.str();
+}
+
+int read_pipe(int fd, int *address);
+int write_pipe(int fd, int *address);
+int open_pipe(char *pipe);
+
+
+
 
 
 int main ( int argc, int argv[] )
@@ -30,7 +50,7 @@ int main ( int argc, int argv[] )
 			//client_socket << "Test message.";
 			fd = open_pipe("/home/josh/IoT/myfifo");
 			read_pipe(fd, &tone);
-			client_socket << tone;
+			client_socket << ToString(tone);
 			client_socket >> reply;
 		}
 		catch ( SocketException& ) {}
@@ -90,3 +110,7 @@ int read_pipe(int fd, int *address)
 		perror("Read Failed");
 	return 0;
 }
+
+
+
+
